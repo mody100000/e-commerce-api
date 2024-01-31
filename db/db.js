@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const db = () => {
   mongoose
-    .connect("mongodb://127.0.0.1:27017/e-commerce")
+    .connect(process.env.DATABASE_URL)
     .then(() => console.log("connected to db"))
     .catch((err) => console.log("error", err));
 };

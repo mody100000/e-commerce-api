@@ -12,8 +12,16 @@ const userSchema = new schema({
   userName: String,
   email: String,
   password: String,
-  role: String,
-  isVerfied: Boolean,
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
+  enabled: {
+    type: Boolean,
+    default: true,
+  },
+  isVerfied: { type: Boolean, default: false },
   address: [addressSchema],
 });
 
