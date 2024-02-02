@@ -1,6 +1,7 @@
 import userModel from "../../db/models/user/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import sendEmail from "./../../services/sendEmail.js";
 
 //sginUp
 export const signUp = async (req, res) => {
@@ -22,6 +23,11 @@ export const signUp = async (req, res) => {
       role,
       address,
     });
+    // TODO:dont forget to add the newUser token in dotenv file
+
+    const token = jwt.sign({ id: addedUser[0]._id }, "NewUser");
+    const url = `http://localhost:8000/user/Verfiy/${token}`;
+    sendEmail(email, url);
     res.json({ message: "added", addedUser });
   }
 };
@@ -30,7 +36,9 @@ export const signUp = async (req, res) => {
 export const signIn = async (req, res) => {
   const { email, password } = req.body;
   let foundedUser = await userModel.findOne({ email });
-  if (!foundedUser) res.json({ message: "you need to register first" });
+  if (!foundedUser) return res.json({ message: "you need to register first" });
+  if (!foundedUser.isVerfied)
+    return res.json({ message: "you need to verfiy your email first" });
   const checkPassword = bcrypt.compareSync(password, foundedUser.password);
   if (checkPassword) {
     const { password, ...rest } = foundedUser.toJSON();
@@ -71,3 +79,21 @@ export const resetPassword = async (req, res) => {
   );
   res.json({ message: "reset password", updatedPassword });
 };
+
+//verfiy Account
+
+export const verfiyAccount = (req, res) => {
+  const { token } = req.params;
+  // TODO:dont forget to add the newUser token in dotenv file
+  jwt.verify(token, "NewUser", async (err, decoded) => {
+    let foundedUser = await userModel.findById(decoded.id);
+    if (!foundedUser) return res.json({ message: "invalid user" });
+    let updateVerfiy = await userModel.findByIdAndUpdate(
+      decoded.id,
+      { isVerfied: true },
+      { new: true }
+    );
+    res.json({ message: "your email is Verfied", updateVerfiy });
+  });
+};
+//TODO:forget password ????????????????:(

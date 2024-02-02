@@ -5,6 +5,7 @@ import {
   resetPassword,
   signIn,
   signUp,
+  verfiyAccount,
   updateUser,
 } from "../controller/user.controller.js";
 
@@ -16,9 +17,12 @@ userRoutes.post("/user/signup", signUp);
 //signIn
 userRoutes.post("/user/signin", signIn);
 
-//admin can update user
+//admin can update and Deactivate user
 userRoutes.put("/user/:id", auth, isAdmin, updateUser);
 
 //user can change/update/reset password
 userRoutes.put("/resetPassword/:id", auth, resetPassword);
+
+//verfiy account
+userRoutes.get("/user/verfiy/:token", verfiyAccount);
 export default userRoutes;
