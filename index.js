@@ -1,8 +1,9 @@
 import express from "express";
 import db from "./db/db.js";
-import userRoutes from "./user/routes/user.routes.js";
 import dotenv from "dotenv";
-import productRoutes from "./product/routes/product.routes.js";
+import userRoutes from "./src/user/routes/user.routes.js";
+import productRoutes from "./src/product/routes/product.routes.js";
+import categoryRoutes from "./src/category/routes/category.routes.js";
 
 dotenv.config();
 
@@ -13,4 +14,5 @@ db();
 server.use(express.json());
 server.use(userRoutes);
 server.use(productRoutes);
+server.use(categoryRoutes);
 server.listen(PORT, () => console.log(`connected to port ${PORT}`));

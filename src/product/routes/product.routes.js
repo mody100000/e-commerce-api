@@ -1,4 +1,5 @@
 import express from "express";
+import { auth } from "../../middleware/auth.js";
 import isAdmin from "../../middleware/isAdmin.js";
 import {
   addProduct,
@@ -7,7 +8,6 @@ import {
   getProduct,
   deleteProduct,
 } from "../controller/product.controller.js";
-import { auth } from "./../../middleware/auth.js";
 
 const productRoutes = express.Router();
 //admins only can add/update/delete products

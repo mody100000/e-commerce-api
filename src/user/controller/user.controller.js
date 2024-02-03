@@ -1,6 +1,6 @@
-import userModel from "../../db/models/user/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import userModel from "./../../../db/models/user/user.js";
 import sendEmail from "./../../services/sendEmail.js";
 
 //sginUp
