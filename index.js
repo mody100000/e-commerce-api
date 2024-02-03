@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import userRoutes from "./src/user/routes/user.routes.js";
 import productRoutes from "./src/product/routes/product.routes.js";
 import categoryRoutes from "./src/category/routes/category.routes.js";
+import couponRoutes from "./src/coupon/routes/coupon.routes.js";
+import cartRoutes from "./src/Cart/routes/cart.routes.js";
 
 dotenv.config();
 
@@ -15,4 +17,7 @@ server.use(express.json());
 server.use(userRoutes);
 server.use(productRoutes);
 server.use(categoryRoutes);
+server.use(couponRoutes);
+server.use(cartRoutes);
+
 server.listen(PORT, () => console.log(`connected to port ${PORT}`));
