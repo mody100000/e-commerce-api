@@ -1,7 +1,6 @@
 import categoryModel from "./../../../db/models/category/category.js";
 export const addCategory = async (req, res) => {
   const createdBy = req.user._id;
-  await categoryModel.findById(createdBy);
   const addedCategory = await categoryModel.insertMany({
     ...req.body,
     createdBy,
@@ -11,7 +10,6 @@ export const addCategory = async (req, res) => {
 
 export const updateCategory = async (req, res) => {
   const createdBy = req.user._id;
-  await categoryModel.findById(createdBy);
   const updatedCategory = await categoryModel.findByIdAndUpdate(
     req.params.id,
     {
@@ -25,8 +23,6 @@ export const updateCategory = async (req, res) => {
 };
 
 export const deleteCategory = async (req, res) => {
-  const createdBy = req.user._id;
-  await categoryModel.findById(createdBy);
   const deletedCategory = await categoryModel.findByIdAndDelete(req.params.id, {
     new: true,
   });

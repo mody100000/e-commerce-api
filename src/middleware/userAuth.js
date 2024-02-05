@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import userModel from "./../db/models/user/user.js";
+import userModel from "./../../db/models/user/user.js";
 export const userAuth = async (req, res, next) => {
   try {
     const { token } = req.headers;
@@ -21,9 +21,7 @@ export const userAuth = async (req, res, next) => {
       return res.json({ message: "User not found" });
     }
 
-    req.user = decoded;
-    req.userId = decoded.userId;
-    req.role = user.role;
+    req.user = user;
 
     if (user.enabled) {
       next();

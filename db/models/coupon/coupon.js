@@ -18,10 +18,40 @@ const couponSchema = new schema(
       type: mongoose.Types.ObjectId,
       ref: "User",
     },
-    expireIn: Date,
+    expireIn: {
+      type: Date,
+      expires: "30d",
+      default: Date.now,
+    },
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );
+couponSchema.statics.softDelete = function (id, deletedBy) {
+  return this.findByIdAndUpdate(
+    id,
+    {
+      $set: {
+        deleted: true,
+        deletedAt: new Date(),
+        deletedBy: deletedBy,
+      },
+    },
+    { new: true }
+  );
+};
+
+// Query middleware to exclude soft-deleted documents
+couponSchema.pre(/.*find.*/, function () {
+  this.where({ deleted: { $ne: true } });
+});
 
 const couponModel = mongoose.model("Coupon", couponSchema);
 

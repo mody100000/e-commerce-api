@@ -6,7 +6,6 @@ dotenv.config();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    // TODO: replace `user` and `pass` values from <https://forwardemail.net>
     user: process.env.SEND_EMAIL,
     pass: process.env.APP_PASSWORD,
   },

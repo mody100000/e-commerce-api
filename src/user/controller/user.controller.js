@@ -39,6 +39,9 @@ export const signIn = async (req, res) => {
   if (!foundedUser) return res.json({ message: "you need to register first" });
   if (!foundedUser.isVerfied)
     return res.json({ message: "you need to verfiy your email first" });
+  if (!foundedUser.enabled)
+    return res.json({ message: "your email is disabled" });
+
   const checkPassword = bcrypt.compareSync(password, foundedUser.password);
   if (checkPassword) {
     const { password, ...rest } = foundedUser.toJSON();

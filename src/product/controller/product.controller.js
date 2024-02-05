@@ -1,7 +1,6 @@
 import productModel from "./../../../db/models/product/product.js";
 export const addProduct = async (req, res) => {
   const userId = req.user._id;
-  await productModel.findById(userId);
   const addedProduct = await productModel.insertMany({
     ...req.body,
     userId,
@@ -11,7 +10,6 @@ export const addProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   const userId = req.user._id;
-  await productModel.findById(userId);
   const updatedProduct = await productModel.findByIdAndUpdate(
     req.params.id,
     {
@@ -20,6 +18,7 @@ export const updateProduct = async (req, res) => {
       priceAfterDiscound: req.body.priceAfterDiscound,
       finalPrice: req.body.finalPrice,
       stock: req.body.stock,
+      category: req.body.category,
       userId,
     },
     { new: true }
@@ -28,9 +27,6 @@ export const updateProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-  const userId = req.user._id;
-
-  await productModel.findById(userId);
   const deletedProduct = await productModel.findByIdAndDelete(req.params.id);
   res.json({ message: "product deleted successfully", deletedProduct });
 };
@@ -58,10 +54,19 @@ export const getProduct = async (req, res) => {
     console.error("Error getting product:", error);
 
     if (error.name === "CastError" && error.kind === "ObjectId") {
-      // Handle invalid ObjectId error separately
       return res.json({ message: "Invalid product ID" });
     }
 
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const getAllProductsInCat = async (req, res) => {
+  const categoryId = req.params.id;
+  const foundedProduct = await productModel.find({ category: categoryId });
+  if (foundedProduct) {
+    res.json({ message: "get the products", foundedProduct });
+  } else {
+    res.json({ message: "category not found" });
   }
 };

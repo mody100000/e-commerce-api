@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const schema = mongoose.Schema;
 
-const userSchema = new schema({
+const productSchema = new schema({
   productName: String,
   slug: String,
   priceAfterDiscound: Number,
@@ -20,6 +20,6 @@ const userSchema = new schema({
   stock: Number,
 });
 
-const productModel = mongoose.model("Product", userSchema);
+const productModel = mongoose.model("Product", productSchema);
 
 export default productModel;
