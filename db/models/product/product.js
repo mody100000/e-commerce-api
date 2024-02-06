@@ -12,7 +12,6 @@ const productSchema = new schema({
     ref: "User",
   },
   image: String,
-  //FIXME:need 2 change the string data type of image 2 buffer
   category: {
     type: mongoose.Types.ObjectId,
     ref: "Category",

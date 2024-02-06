@@ -1,7 +1,7 @@
 import express from "express";
 import { auth } from "../../middleware/auth.js";
 import isAdmin from "../../middleware/isAdmin.js";
-import { validation } from "./../../middleware/validation.js";
+import { validation, validationFile } from "./../../middleware/validation.js";
 import {
   addProduct,
   updateProduct,
@@ -10,6 +10,7 @@ import {
   deleteProduct,
   getAllProductsInCat,
 } from "../controller/product.controller.js";
+import upload from "./../../middleware/upload.js";
 import {
   addProductValidation,
   updatedProductValidation,
@@ -21,14 +22,16 @@ productRoutes.post(
   "/products",
   auth,
   isAdmin,
-  validation(addProductValidation),
+  validationFile(addProductValidation),
+  upload.single("image"),
   addProduct
 );
 productRoutes.put(
   "/product/:id",
   auth,
   isAdmin,
-  validation(updatedProductValidation),
+  validationFile(updatedProductValidation),
+  upload.single("image"),
   updateProduct
 );
 productRoutes.delete("/product/:id", auth, isAdmin, deleteProduct);

@@ -1,20 +1,28 @@
 import categoryModel from "./../../../db/models/category/category.js";
 export const addCategory = async (req, res) => {
   const createdBy = req.user._id;
-  const addedCategory = await categoryModel.insertMany({
+  const image = req.file
+    ? "http://localhost:8000/images/" + req.file.filename
+    : undefined;
+  const addedCategory = await categoryModel.create({
     ...req.body,
     createdBy,
+    image,
   });
   res.json({ message: "added category", addedCategory });
 };
 
 export const updateCategory = async (req, res) => {
   const createdBy = req.user._id;
+  const image = req.file
+    ? "http://localhost:8000/images/" + req.file.filename
+    : undefined;
   const updatedCategory = await categoryModel.findByIdAndUpdate(
     req.params.id,
     {
       categoryName: req.body.categoryName,
       createdBy,
+      image,
     },
     { new: true }
   );

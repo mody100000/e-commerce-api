@@ -14,6 +14,7 @@ const PORT = 8000;
 
 db();
 server.use(express.json());
+server.use("/images", express.static("images"));
 server.use(userRoutes);
 server.use(productRoutes);
 server.use(categoryRoutes);

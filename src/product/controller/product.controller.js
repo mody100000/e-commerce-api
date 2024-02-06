@@ -1,15 +1,23 @@
 import productModel from "./../../../db/models/product/product.js";
 export const addProduct = async (req, res) => {
   const userId = req.user._id;
-  const addedProduct = await productModel.insertMany({
+  const image = req.file
+    ? "http://localhost:8000/images/" + req.file.filename
+    : undefined;
+  const addedProduct = await productModel.create({
     ...req.body,
     userId,
+    image,
   });
   res.json({ message: "added product", addedProduct });
 };
 
 export const updateProduct = async (req, res) => {
   const userId = req.user._id;
+  const image = req.file
+    ? "http://localhost:8000/images/" + req.file.filename
+    : undefined;
+
   const updatedProduct = await productModel.findByIdAndUpdate(
     req.params.id,
     {
@@ -20,6 +28,7 @@ export const updateProduct = async (req, res) => {
       stock: req.body.stock,
       category: req.body.category,
       userId,
+      image,
     },
     { new: true }
   );
