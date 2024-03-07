@@ -49,7 +49,10 @@ export const getAllProducts = async (req, res) => {
     .limit(productsPerPage);
   res.json({ message: "geting all of the products", getingProducts });
 };
-
+export const getAllProduct = async (req, res) => {
+  const getingProducts = await productModel.find();
+  res.json({ message: "geting all of the products", getingProducts });
+};
 export const getProduct = async (req, res) => {
   try {
     const foundedProduct = await productModel.findById(req.params.id);

@@ -6,6 +6,7 @@ import {
   addProduct,
   updateProduct,
   getAllProducts,
+  getAllProduct,
   getProduct,
   deleteProduct,
   getAllProductsInCat,
@@ -38,6 +39,8 @@ productRoutes.delete("/product/:id", auth, isAdmin, deleteProduct);
 //get all product with pagination
 //to go to the next page plz add ?p=1
 productRoutes.get("/products", auth, getAllProducts);
+//get all products without pagenation
+productRoutes.get("/product", auth, getAllProduct);
 //get specific product
 productRoutes.get("/product/:id", auth, getProduct);
 //get all products that in the same category

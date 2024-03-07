@@ -1,5 +1,15 @@
 import cartModel from "../../../db/models/cart/cart.js";
 
+export const getAllCarts = async (req, res) => {
+  try {
+    const getCart = await cartModel.find().populate("products.product");
+    res.json({ message: "get all carts", getCart });
+  } catch (error) {
+    console.error("Error fetching carts:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export const addCart = async (req, res) => {
   const userId = req.user._id;
   const foundedCart = await cartModel.create({

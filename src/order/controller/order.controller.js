@@ -24,3 +24,8 @@ export const cashPayment = async (req, res) => {
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
+
+export const getAllOrders = async (req, res) => {
+  const order = await orderModel.find();
+  res.json({ message: "get all orders", order });
+};

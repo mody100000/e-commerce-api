@@ -1,5 +1,4 @@
 import Joi from "joi";
-
 export const signupValidation = Joi.object({
   userName: Joi.string().alphanum().min(3).max(15).required(),
   email: Joi.string().email().required(),
@@ -13,7 +12,6 @@ export const signupValidation = Joi.object({
     })
   ),
 });
-
 export const loginValidation = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(5).max(255).required(),
